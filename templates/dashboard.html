@@ -23,8 +23,15 @@
             margin-right: 15px;
             text-decoration: none;
         }
+        .welcome-message {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
         .btn {
-            padding: 8px 12px;
+            padding: 10px 15px;
             background-color: #dc3545;
             color: white;
             border: none;
@@ -33,9 +40,6 @@
             text-decoration: none;
             display: inline-block;
         }
-        .btn-login {
-            background-color: #4CAF50;
-        }
     </style>
 </head>
 <body>
@@ -43,15 +47,15 @@
         <nav>
             <a href="/">Home</a>
             <a href="/about">About</a>
-            {% if current_user.is_authenticated %}
-                <a href="/dashboard">Dashboard</a>
-                <a href="/logout" class="btn">Logout</a>
-            {% else %}
-                <a href="/login" class="btn btn-login">Login</a>
-            {% endif %}
+            <a href="/dashboard">Dashboard</a>
+            <a href="/logout" class="btn">Logout</a>
         </nav>
-        <h1>About</h1>
-        <p>This is the about page of our Flask application.</p>
+        <h1>Dashboard</h1>
+        <div class="welcome-message">
+            Welcome, {{ current_user.username }}! You are now logged in.
+        </div>
+        <p>This is a protected page that only authenticated users can access.</p>
+        <p>Here you would typically see user-specific content and functionality.</p>
     </div>
 </body>
 </html>
