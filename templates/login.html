@@ -49,6 +49,36 @@
             background-color: #d1ecf1;
             color: #0c5460;
         }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .form-group .error {
+            color: #721c24;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+        .btn {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #0069d9;
+        }
     </style>
 </head>
 <body>
@@ -57,18 +87,10 @@
             <div class="left-links">
                 <a href="/">Home</a>
                 <a href="/about">About</a>
-                {% if current_user.is_authenticated %}
-                <a href="/dashboard">Dashboard</a>
-                {% endif %}
             </div>
             <div class="right-links">
-                {% if current_user.is_authenticated %}
-                <span>Welcome, {{ current_user.username }}!</span>
-                <a href="/logout">Logout</a>
-                {% else %}
                 <a href="/login">Login</a>
                 <a href="/register">Register</a>
-                {% endif %}
             </div>
         </nav>
         
@@ -82,8 +104,36 @@
             {% endif %}
         {% endwith %}
         
-        <h1>About</h1>
-        <p>This is the about page of our Flask application.</p>
+        <h1>Login</h1>
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                {{ form.username.label }}
+                {{ form.username(class="form-control") }}
+                {% if form.username.errors %}
+                    {% for error in form.username.errors %}
+                        <span class="error">{{ error }}</span>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.password.label }}
+                {{ form.password(class="form-control") }}
+                {% if form.password.errors %}
+                    {% for error in form.password.errors %}
+                        <span class="error">{{ error }}</span>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.submit(class="btn") }}
+            </div>
+        </form>
+        <div>
+            <small>
+                Need an account? <a href="{{ url_for('register') }}">Sign up now</a>
+            </small>
+        </div>
     </div>
 </body>
 </html>
