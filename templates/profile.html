@@ -38,6 +38,12 @@
             color: #155724;
             border: 1px solid #c3e6cb;
         }
+        .profile-info {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -45,13 +51,11 @@
         <nav>
             <a href="/">Home</a>
             <a href="/about">About</a>
-            {% if current_user.is_authenticated %}
-                <a href="/profile">Profile</a>
-                <a href="/logout">Logout</a>
-            {% else %}
-                <a href="/login">Login</a>
-            {% endif %}
+            <a href="/profile">Profile</a>
+            <a href="/logout">Logout</a>
         </nav>
+        
+        <h1>User Profile</h1>
         
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
@@ -61,14 +65,11 @@
             {% endif %}
         {% endwith %}
         
-        <h1>Welcome to Flask</h1>
-        <p>This is a simple Flask application.</p>
-        
-        {% if current_user.is_authenticated %}
-            <p>You are logged in as <strong>{{ current_user.username }}</strong>.</p>
-        {% else %}
-            <p>Please <a href="/login">login</a> to access your profile.</p>
-        {% endif %}
+        <div class="profile-info">
+            <h2>Welcome, {{ current_user.username }}!</h2>
+            <p>User ID: {{ current_user.id }}</p>
+            <p>This is your protected profile page. Only logged-in users can see this.</p>
+        </div>
     </div>
 </body>
 </html>
