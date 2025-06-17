@@ -18,21 +18,78 @@
         }
         nav {
             margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
         }
-        nav a {
+        nav .left-links a {
             margin-right: 15px;
             text-decoration: none;
+        }
+        nav .right-links a {
+            margin-left: 15px;
+            text-decoration: none;
+        }
+        .flash-messages {
+            margin-bottom: 20px;
+        }
+        .flash-message {
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+        .flash-message.success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .flash-message.danger {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .flash-message.info {
+            background-color: #d1ecf1;
+            color: #0c5460;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <nav>
-            <a href="/">Home</a>
-            <a href="/about">About</a>
+            <div class="left-links">
+                <a href="/">Home</a>
+                <a href="/about">About</a>
+                {% if current_user.is_authenticated %}
+                <a href="/dashboard">Dashboard</a>
+                {% endif %}
+            </div>
+            <div class="right-links">
+                {% if current_user.is_authenticated %}
+                <span>Welcome, {{ current_user.username }}!</span>
+                <a href="/logout">Logout</a>
+                {% else %}
+                <a href="/login">Login</a>
+                <a href="/register">Register</a>
+                {% endif %}
+            </div>
         </nav>
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                {% for category, message in messages %}
+                    <div class="flash-message {{ category }}">{{ message }}</div>
+                {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        
         <h1>Welcome to Flask</h1>
         <p>This is a simple Flask application.</p>
+        
+        {% if current_user.is_authenticated %}
+        <p>You are logged in as {{ current_user.username }}.</p>
+        {% else %}
+        <p>Please <a href="/login">login</a> or <a href="/register">register</a> to access all features.</p>
+        {% endif %}
     </div>
 </body>
 </html>
